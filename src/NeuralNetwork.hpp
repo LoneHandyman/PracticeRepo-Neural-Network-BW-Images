@@ -11,11 +11,24 @@ namespace nn{
     std::array<NeuronLayer, numOfLayers> topology;
   public:
     NeuralNetwork(const std::size_t inputLayerDentrites,
-                  std::array<uint32_t, numOfLayers>& rawTopology){
+                  const std::array<uint32_t, numOfLayers> rawTopology){
       topology[0] = NeuronLayer(inputLayerDentrites, rawTopology[0]);
       for(std::size_t idx = 1; idx < numOfLayers; ++idx){
-        topology[idx] = NeuronLayer(static_cast<std::size_t>(rawTopology[idx - 1]), rawTopology[idx]);
+        topology[idx] = NeuronLayer(static_cast<std::size_t>(rawTopology[idx - 1]),
+                                                             rawTopology[idx]);
       }
+    }
+
+    std::vector<double> getAnswer(const std::vector<double>& inputLayerData){
+      std::vector<double> outputValues = topology[0].keepForward(inputLayerData);
+      for(std::size_t idx = 1; idx < numOfLayers; ++idx){
+        outputValues = topology[idx].keepForward(outputValues);
+      }
+      return outputValues;
+    }
+
+    void train(){
+
     }
   };
 }

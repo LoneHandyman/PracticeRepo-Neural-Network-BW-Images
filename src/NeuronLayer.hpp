@@ -13,6 +13,15 @@ namespace nn{
         setOfNeurons.emplace_back(numOfDentrites, predef_functions::sigmoid);
       }
     }
+
+    std::vector<double> keepForward(const std::vector<double>& lastLayerOutput){
+      std::vector<double> outputValues;
+      for(Neuron& singleNeuron : setOfNeurons){
+        singleNeuron.onProcessing(lastLayerOutput);
+        outputValues.push_back(singleNeuron.onSynapsis());
+      }
+      return outputValues;
+    }
   private:
     std::vector<Neuron> setOfNeurons;
     std::size_t numOfDentrites;

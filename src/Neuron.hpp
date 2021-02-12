@@ -39,8 +39,6 @@ namespace nn{
     }
 
     double onSynapsis(){
-      //std::cout << "Transfer Function: " << (*ptrTransferFunc)(-1.2) << std::endl;
-      //std::cout << "Desc. Gradient Function: " << ptrTransferFunc->d$(-1.2) << std::endl;
       return (*ptrTransferFunc)(outPutValue);
     }
 

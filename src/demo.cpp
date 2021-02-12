@@ -1,10 +1,10 @@
 #include "NeuralNetwork.hpp"
 
 int __cdecl main(){
-  nn::Neuron new_neuron(5, nn::predef_functions::sigmoid);
-  new_neuron.printInfo();
-  std::vector<double> data = {0.12,2.3,0.2,0.22,0.05};
-  new_neuron.onProcessing(data);
-  std::cout << new_neuron.onSynapsis() << std::endl;
+  nn::NeuralNetwork<5> new_neural_net(3, {2,4,8,4,1});
+  std::vector<double> varInputs = {0.012,0.25,0.69};
+  for(double& ans : new_neural_net.getAnswer(varInputs)){
+    std::cout << ans << std::endl;
+  }
   return EXIT_SUCCESS;
 }
