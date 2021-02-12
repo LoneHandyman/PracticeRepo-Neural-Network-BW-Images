@@ -12,7 +12,7 @@
 namespace nn{
   std::default_random_engine random(std::chrono::system_clock::now().time_since_epoch().count());
   struct Neuron{
-    Neuron(std::size_t inputs, const std::function<double(double)>& activation){
+    Neuron(const std::size_t inputs, const std::function<double(double)>& activation){
       std::uniform_real_distribution<double> distribution(-1.0,1.0);
       ptrTransferFunc = std::make_shared<TransferFunction>(activation);
       inputWeights.resize(inputs);
