@@ -1,12 +1,12 @@
-#ifndef _SOURCE_TRANSFER_FUNCTION_HPP_
-#define _SOURCE_TRANSFER_FUNCTION_HPP_
+#ifndef _SOURCE_NN_FUNCTION_HPP_
+#define _SOURCE_NN_FUNCTION_HPP_
 
 #include <cmath>
 #include <functional>
 
 namespace nn{
-  struct TransferFunction{
-    TransferFunction(const std::function<double(double)>& _function){
+  struct NNFunction{
+    NNFunction(const std::function<double(double)>& _function){
       defaultFunc = _function;
     }
 
@@ -24,7 +24,7 @@ namespace nn{
     std::function<double(double)> derivFunc;
   };
 
-  double TransferFunction::h = 0.00001;
+  double NNFunction::h = 0.00001;
 
   namespace predef_functions{
     std::function<double(double)> sigmoid = [](double x){
@@ -33,4 +33,4 @@ namespace nn{
   }
 }
 
-#endif //_SOURCE_TRANSFER_FUNCTION_HPP_
+#endif //_SOURCE_NN_FUNCTION_HPP_

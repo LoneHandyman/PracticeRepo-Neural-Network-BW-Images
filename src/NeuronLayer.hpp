@@ -1,30 +1,29 @@
 #ifndef _SOURCE_NEURON_LAYER_HPP_
 #define _SOURCE_NEURON_LAYER_HPP_
 
-#include "Neuron.hpp"
+#include "NNFunction.hpp"
+#include "Tools.hpp"
 
 namespace nn{
-  struct NeuronLayer{
-    NeuronLayer(){}
-
-    NeuronLayer(const std::size_t numOfDentrites, const uint32_t numOfNeurons){
-      this->numOfDentrites = numOfDentrites;
-      for(uint32_t counter = 1; counter <= numOfNeurons; ++counter){
-        setOfNeurons.emplace_back(numOfDentrites, predef_functions::sigmoid);
-      }
+  class NNLayer {
+    NNMatrixNxM weights;
+    std::shared_ptr<NNFunction> ptrTransferFunc;
+  public:
+    NNLayer() {}
+    NNLayer(const std::function<double(double)>& activation, 
+                                      uint32_t numOfNeurons, 
+                                      uint32_t numOfLinksLL = 1) {
+      ptrTransferFunc = std::make_shared<NNFunction>(activation);
+      weights = NNMatrixNxM(numOfNeurons, numOfLinksLL, "random");
     }
 
-    std::vector<double> keepForward(const std::vector<double>& lastLayerOutput){
-      std::vector<double> outputValues;
-      for(Neuron& singleNeuron : setOfNeurons){
-        singleNeuron.onProcessing(lastLayerOutput);
-        outputValues.push_back(singleNeuron.onSynapsis());
-      }
-      return outputValues;
+    NNMatrixNxM onSynapsis(NNMatrixNxM& invars){//Nx1 invars
+      NNMatrixNxM weightedSum = weights * invars;// Calculating weighted sum
+      for(std::size_t rowidx = 0; rowidx < weightedSum.get_sdim('N'); ++rowidx)
+        weightedSum[rowidx][0] = (*ptrTransferFunc)(weightedSum[rowidx][0]);//Activation
+      return weightedSum;
     }
-  private:
-    std::vector<Neuron> setOfNeurons;
-    std::size_t numOfDentrites;
+    
   };
 }
 
