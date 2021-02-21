@@ -6,6 +6,35 @@
 #include <array>
 
 namespace nn{
+  class MLP_NeuralNet {
+    typedef std::reference_wrapper<std::shared_ptr<NNLayer>> Ref2NNLayer;
+
+    std::shared_ptr<NNLayer> inputLayer;
+    Ref2NNLayer currentLayer = std::ref(inputLayer);
+    double learningRatio_;
+  public:
+    MLP_NeuralNet(double learningRatio){
+      learningRatio_ = learningRatio;
+    }
+
+    void addDenseLayer(const std::function<double(double)>& activation, 
+                                      const uint32_t numOfNeurons){
+      if(inputLayer == nullptr)
+        currentLayer.get() = std::make_shared<NNLayer>(activation,
+                                                      numOfNeurons);
+      else{
+        currentLayer.get()->nextLayer = std::make_shared<NNLayer>(activation,
+                                                                numOfNeurons,
+                                          currentLayer.get()->countNeurons());
+        currentLayer = std::ref(currentLayer.get()->nextLayer);
+      }
+    }
+
+    void train(std::vector<NNMatrixNxM>& dataInput, std::vector<NNMatrixNxM>& dataOutput){
+      
+    }
+  };
+
   template<std::size_t NUM_OF_LAYERS = 1>
   class MultiLayerPerceptron{
     std::array<NNLayer, NUM_OF_LAYERS> topology;
@@ -17,6 +46,10 @@ namespace nn{
                                           rawTopology[idx],
                                           rawTopology[idx - 1]);
       }
+    }
+
+    void addLayer(const NNLayer& nextLayer){
+
     }
 
     std::vector<double> getAnswer(const std::vector<double>& inputLayerData){

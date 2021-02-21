@@ -9,12 +9,18 @@ namespace nn{
     NNMatrixNxM weights;
     std::shared_ptr<NNFunction> ptrTransferFunc;
   public:
+    std::shared_ptr<NNLayer> nextLayer;
+
     NNLayer() {}
     NNLayer(const std::function<double(double)>& activation, 
-                                      uint32_t numOfNeurons, 
-                                      uint32_t numOfLinksLL = 1) {
+                                  const uint32_t numOfNeurons, 
+                                  const uint32_t numOfLinksLL = 1) {
       ptrTransferFunc = std::make_shared<NNFunction>(activation);
       weights = NNMatrixNxM(numOfNeurons, numOfLinksLL, "random");
+    }
+
+    std::size_t countNeurons(){
+      return weights.get_sdim('N');
     }
 
     NNMatrixNxM onSynapsis(NNMatrixNxM& invars){//Nx1 invars
