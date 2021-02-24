@@ -13,8 +13,11 @@ namespace nn{
     Ref2NNLayer currentLayer = std::ref(inputLayer);
     double learningRatio_;
   public:
-    MLP_NeuralNet(double learningRatio){
+    MLP_NeuralNet(double learningRatio, std::string costFunctionID){
       learningRatio_ = learningRatio;
+      if(costFunctionID == "mse"){//mean square error
+
+      }
     }
 
     void addDenseLayer(const std::function<double(double)>& activation, 
@@ -35,6 +38,7 @@ namespace nn{
     }
   };
 
+//OLD VERSION
   template<std::size_t NUM_OF_LAYERS = 1>
   class MultiLayerPerceptron{
     std::array<NNLayer, NUM_OF_LAYERS> topology;

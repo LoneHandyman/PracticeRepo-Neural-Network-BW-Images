@@ -16,7 +16,7 @@ namespace nn{
                                   const uint32_t numOfNeurons, 
                                   const uint32_t numOfLinksLL = 1) {
       ptrTransferFunc = std::make_shared<NNFunction>(activation);
-      weights = NNMatrixNxM(numOfNeurons, numOfLinksLL, "random");
+      weights = NNMatrixNxM(numOfNeurons, numOfLinksLL + 1, "random");
     }
 
     std::size_t countNeurons(){
@@ -27,6 +27,7 @@ namespace nn{
       NNMatrixNxM weightedSum = weights * invars;// Calculating weighted sum
       for(std::size_t rowidx = 0; rowidx < weightedSum.get_sdim('N'); ++rowidx)
         weightedSum[rowidx][0] = (*ptrTransferFunc)(weightedSum[rowidx][0]);//Activation
+      weightedSum.appendRow(1.0);
       return weightedSum;
     }
     

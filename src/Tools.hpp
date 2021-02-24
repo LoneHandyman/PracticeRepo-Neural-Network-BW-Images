@@ -56,11 +56,18 @@ namespace nn{
 
     std::vector<double>& operator[](std::size_t idx) {
       return body[idx];
-    } 
+    }
 
     std::size_t get_sdim(char id){
       if(id == 'M') return M_;
       if(id == 'N') return N_;
+    }
+
+    void appendRow(double value){
+      body.resize(++N_);
+      for(double& data : body[N_ - 1]){
+        data = value;
+      }
     }
   private:
     std::vector<std::vector<double>> body;
