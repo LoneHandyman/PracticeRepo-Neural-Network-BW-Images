@@ -65,6 +65,7 @@ namespace nn{
 
     void appendRow(double value){
       body.resize(++N_);
+      body[N_ - 1].resize(M_);
       for(double& data : body[N_ - 1]){
         data = value;
       }
