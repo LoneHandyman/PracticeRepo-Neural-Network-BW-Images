@@ -12,11 +12,13 @@ namespace nn{
     std::shared_ptr<NNLayer> inputLayer;
     Ref2NNLayer currentLayer = std::ref(inputLayer);
     double learningRatio_;
+    std::function<double(NNMatrixNxM&,NNMatrixNxM&)> lossFunction;
+    std::function<double(double,double,double)> gradientFunction;
   public:
-    MLP_NeuralNet(double learningRatio, std::string costFunctionID){
+    MLP_NeuralNet(double learningRatio, std::string lossFunctionID){
       learningRatio_ = learningRatio;
-      if(costFunctionID == "mse"){//mean square error
-
+      if(lossFunctionID == "mse"){//mean square error
+        lossFunction = [](NNMatrixNxM& y, NNMatrixNxM& t){return 0;};
       }
     }
 
